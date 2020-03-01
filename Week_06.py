@@ -11,6 +11,7 @@ Dictionaries are useful for working with large data, mapped data, CSV files, API
 """
 
 # declaring a dictionary variable
+import csv
 empty = {}    # empty dictionary
 person = {"name": "John Smith"}
 # dictionary with one key/value pair
@@ -219,3 +220,139 @@ print(person['name'])
 
 
 # Tuples, Sets, Frozensets
+
+# Tuples
+# A tuple is identical to a list, except it is immutable, meaning it cannot be altered once declared.
+# Tuples are useful for storing info that you don't want to change.
+# They're ordered like lists, so you can iterate through them using an index.
+
+# declaring a tuple
+"""
+To declare a tuple, you use a comma to separate two or more items. Lists are denoted
+by their square brackets on the outside, whereas tuples can be declared with optional
+parenthesis. It’s more likely they’re declared with parenthesis as it’s easier to read. Let’s
+see an example:
+"""
+# declaring a tuple
+t1 = ("hello", 2, "hello")    # with parens
+t2 = True, 1                  # without parens
+print(type(t1), type(t2))     # both are tuples
+# t1[0] = 1     # will crash, tuples are immutable once declared
+# Only way to overwrite the data within a tuple is to re-declare the entire tuple.
+
+
+# Sets
+# Share the same characteristics of lists and dictionaries.
+"""
+A set is a collection of info like a list; however, like a key in a dictionary, sets can only contain unique values.
+They're unordered meaning that they cannot be accessed by index but rather by the value itself like dictionary keys.
+They can be iterated through just like dictionary keys.
+Sets are practical in situations of storing unique items.
+"""
+# Declaring a set
+"""
+Set can be declared in two ways:
+1. By using the keyword "set" followed by parenthesis and enclosing square brackets.
+2. By using a set of curly brackets.
+"""
+# declaring a set
+s1 = set([1, 2, 3, 1])    # using the set keyword and square brackets
+s2 = {4, 4, 5}            # using curly brackets, like a dictionary
+print(type(s1), type(s2))
+s1.add(5)   # using the add methos to add new items to a set
+s1.remove(1)  # using the remove method to get rid of the value 1
+print(s1)     # notice when printed it removed the second "1" at the end
+
+
+# Frozensets
+# Are essentially the combination of a set and tuple.
+# They're immutable, unordered and unique.
+# These are perfect for sensitive info like bank account numbers, as you wouldn't want to alter those.
+# They can be iterated over, but not indexed.
+
+# Declaring a Frozenset
+# Use the the keyword "frozenset" followed by parenthesis and enclosing square brackets.
+# declaring a frozenset
+fset = frozenset([1, 2, 3, 4])
+print(type(fset))
+
+# Exercise
+"""
+1. User Input: Ask the user to input as many bank account numbers as they’d
+like, and store them within a list initially. Once the user is done entering
+information, convert the list to a frozenset and print it out.
+"""
+# solution
+userInput = int(
+    input("How many bank account numbers would you like to enter? "))
+
+# create list to store bank accounts
+bankAccounts = []
+# loop the user input to capture the number of bank accounts
+for s in range(userInput):
+    bankAccNo = int(input("Enter bank account number: "))
+    bankAccounts.append(bankAccNo)
+
+# convert list into a frozenset
+bankAccountsFSet = frozenset(bankAccounts)
+print(bankAccountsFSet)
+
+
+"""
+2. Conversion: Convert the following list into a set of unique values. Print it out
+after to check there are no duplicates:
+>>> nums = [3, 4, 3, 7, 10]
+"""
+# solution
+nums = [3, 4, 3, 7, 10]
+
+# convert to frozenset since they hold unique values
+numFSet = frozenset(nums)
+print(numFSet)
+
+
+# Reading and Writing Files
+# Depending on the type of program you're writing, you'll need to save or access info.
+
+# Working with Text Files
+"""
+Python comes with an open() function that allows creation and modification of files.
+This function accepts two parameters, the file name and the mode. If the file name exists, then
+it will simply open the file for modification; otherwise, it will create the file.
+The mode refers to how Python opens and works with the file.
+For instance, to grab info from a file, you open it up to read. This allows you to work with the file while not accidentally changing it.
+"""
+# opening/creating and writing to text file
+f = open("test.txt", "w+")   # open file in writing and reading mode
+f.write("this is a test")
+f.close     # anytime you open a file, you must close it
+# reading from a text file
+f = open("test.txt", "r")
+data = f.read()
+f.close     # anytime you open a file, you must close it
+print(data)
+
+"""
+Note: Mode “w” will overwrite the entire file. Use “a” for appending.
+"""
+
+# Writing to CSV Files
+"""
+CSV files work with  data by separating a comma between each cell. Also known as tabular data structure.
+Python has a default library known as "csv" to work with CSV files.
+You need to import that in order to work with CSV files. After importing, we'll use the second method of opening 
+files using the "with" keyword.
+This concept looks like a while loop, so that while the file is open, we can work with it, and once the block of code is done 
+running, it closes the file automatically.
+"""
+# opening/creating and writing to a csv file
+with open("test.csv", mode="w", newline="") as f:
+    writer = csv.writer(f, delimiter=",")
+    writer.writerow(["Name", "City"])
+    writer.writerow(["Nick Mwangemi", "Taiwan"])
+
+# Reading from CSV Files
+with open("test.csv", mode="r") as f:
+    reader = csv.reader(f, delimiter=",")
+    for row in reader:
+        print(row)
