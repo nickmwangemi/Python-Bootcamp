@@ -40,6 +40,25 @@ def loginUser():
     print("+"*50)
     return False
 
+# adding changing of passwords functionality
+
+
+def changePassword():
+    with open("users.csv", mode="a", newline="") as f:
+        writer = csv.writer(f, delimiter=",")
+        email = input("Please enter your email: ")
+        print("Please enter your new password:")
+        password = input("Password: ")
+        password2 = input("Confirm new password: ")
+        clear_output()
+        if password == password2:
+            writer.writerow([email, password])
+            print("Your password has been successfully changed!")
+            print("+"*50)
+        else:
+            print("Something went wrong. Try again.")
+            print("+"*50)
+
 
 # Creating the Main Loop - handles system menu and what to show based on the user being logged in or not
 # variables for main loop
@@ -48,7 +67,7 @@ logged_in = False
 # main loop
 while active:
     if logged_in:
-        print("1. Logout\n2. Quit")
+        print("1. Logout\n2. Quit\n3. Change Password")
     else:
         print("1. Login\n2. Register\n3. Quit")
     choice = input("What would you like to do? ").lower()
@@ -56,16 +75,23 @@ while active:
     print("+"*50)
     if choice == "register" and logged_in == False:
         registerUser()
+
     elif choice == "login" and logged_in == False:
         logged_in = loginUser()
+
     elif choice == "quit":
         active = False
         print("Thanks for using our software!")
         print("+"*50)
+
     elif choice == "logout" and logged_in == True:
         logged_in = False
         print("You're now logged out.")
         print("+"*50)
+
+    elif choice == "change password" and logged_in == True:
+        logged_in = changePassword()
+
     else:
         print("Sorry, please try again!")
         print("+"*50)
